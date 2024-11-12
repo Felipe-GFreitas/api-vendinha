@@ -1,0 +1,16 @@
+CREATE TABLE USERS(
+ID INTEGER PRIMARY KEY AUTO_INCREMENT,
+NAME VARCHAR(255) NOT NULL,
+EMAIL VARCHAR(255) NOT NULL,
+PASSWORD VARCHAR(255) NOT NULL,
+CPF_CNPJ VARCHAR(255) NOT NULL,
+IS_ACTIVE BOOLEAN DEFAULT TRUE
+);
+
+create table produtos(
+    id integer primary key auto_increment,
+    nome varchar(255) not null,
+    preco DOUBLE,
+    quantidade integer,
+    USER_ID INTEGER REFERENCES USERS (id)
+);
