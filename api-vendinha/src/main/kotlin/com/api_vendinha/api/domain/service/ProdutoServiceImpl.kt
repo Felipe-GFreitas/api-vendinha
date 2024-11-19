@@ -49,36 +49,39 @@ class ProdutoServiceImpl (
 
     }
 
-    override fun update(produtoRequestDto: ProdutoRequestDto): ProdutoResponseDto {
-        // Busca o produto pelo ID
+    override fun update(id: Long, produtoRequestDto: ProdutoRequestDto): ProdutoResponseDto {
+        // Busca o produto pelo ID, lançando exceção se não encontrado
         val produto = produtoRepository.findById(id).orElseThrow {
-            IllegalArgumentException("Produto não encontrado!")
+            throw IllegalArgumentException("Produto não encontrado")
         }
 
-        // Atualiza os dados do produto com os dados recebidos no DTO
+        // Busca o usuário associado ao ID no DTO
+        val user = userRepository.findById(produtoRequestDto.user).orElseThrow()
+
+        // Atualiza os campos do produto com os novos valores
         produto.nome = produtoRequestDto.nome
         produto.preco = produtoRequestDto.preco
         produto.quantidade = produtoRequestDto.quantidade
+        produto.user = user
 
-        // Salva o produto atualizado
-        val produtoAtualizado = produtoRepository.save(produto)
+        // Salva as alterações no banco
+        val updatedProduto = produtoRepository.save(produto)
 
-        // Retorna o ProdutoResponseDto com os dados atualizados
+        // Retorna o ProdutoResponseDto atualizado
         return ProdutoResponseDto(
-            id = produtoAtualizado.id,
-            nome = produtoAtualizado.nome,
-            preco = produtoAtualizado.preco,
-            quantidade = produtoAtualizado.quantidade,
-            user = UserResponseDto(  // Aqui você converte o usuário associado em um UserResponseDto
-                id = produtoAtualizado.user?.id ?: throw IllegalArgumentException("Usuário não encontrado!"),
-                name = produtoAtualizado.user?.name ?: "",
-                email = produtoAtualizado.user?.email ?: "",
-                password = produtoAtualizado.user?.password ?: "",
-                cpf_cnpj = produtoAtualizado.user?.cpf_cnpj ?: "",
-                is_active = produtoAtualizado.user?.is_active ?: false
+            id = updatedProduto.id,
+            nome = updatedProduto.nome,
+            preco = updatedProduto.preco,
+            quantidade = updatedProduto.quantidade,
+            user = UserResponseDto(
+                id = user.id,
+                name = user.name,
+                email = user.email,
+                password = user.password,
+                cpf_cnpj = user.cpf_cnpj,
+                is_active = user.is_active
             )
         )
     }
-
 
 }

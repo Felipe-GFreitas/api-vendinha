@@ -7,6 +7,5 @@ import com.api_vendinha.api.domain.dtos.response.UserResponseDto
 
 interface ProdutoServiceInterface {
     fun save(produtoRequestDto: ProdutoRequestDto): ProdutoResponseDto
-    fun update(produtoRequestDto: ProdutoRequestDto): ProdutoResponseDto
-
+    fun update(id: Long, produtoRequestDto: ProdutoRequestDto): ProdutoResponseDto
 }

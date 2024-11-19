@@ -14,3 +14,14 @@ create table produtos(
     quantidade integer,
     USER_ID INTEGER REFERENCES USERS (id)
 );
+
+CREATE TABLE sales (
+                       id INTEGER PRIMARY KEY AUTO_INCREMENT,
+                       user_id INTEGER NOT NULL,
+                       product_id INTEGER NOT NULL,
+                       quantity INTEGER NOT NULL,
+                       price DOUBLE NOT NULL,
+                       sale_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                       FOREIGN KEY (user_id) REFERENCES users(id),
+                       FOREIGN KEY (product_id) REFERENCES produtos(id)
+);

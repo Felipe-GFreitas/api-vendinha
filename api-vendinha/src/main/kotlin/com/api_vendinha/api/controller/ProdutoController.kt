@@ -22,6 +22,14 @@ class ProdutoController(
         return produtoServiceInterface.save(produtoRequestDto)
     }
 
+    @PutMapping("/update/{id}")
+    fun updateProduto(
+        @PathVariable id: Long,
+        @RequestBody produtoRequestDto: ProdutoRequestDto
+    ): ProdutoResponseDto {
+        return produtoServiceInterface.update(id, produtoRequestDto)
+    }
+
     @GetMapping("/list")
     fun getAllProdutos():List<ProdutoResponseDto>{
         val produtos = produtoRepository.findAll()
