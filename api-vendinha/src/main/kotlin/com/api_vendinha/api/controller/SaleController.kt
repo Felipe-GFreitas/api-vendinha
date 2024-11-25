@@ -2,6 +2,7 @@ package com.api_vendinha.api.controller
 import org.springframework.web.bind.annotation.*
 import com.api_vendinha.api.domain.service.SaleService
 import com.api_vendinha.api.domain.dtos.request.SaleRequestDto
+import com.api_vendinha.api.domain.dtos.response.SaleResponseDto
 import org.springframework.http.ResponseEntity
 
 
@@ -20,4 +21,12 @@ class SaleController(private val saleService: SaleService) {
         )
         return ResponseEntity.ok("Venda realizada com sucesso!")
     }
+
+    @GetMapping("/list")
+    fun listarVendas(): ResponseEntity<List<SaleResponseDto>> {
+        val vendas = saleService.listarVendas()
+        return ResponseEntity.ok(vendas)
+    }
+
+
 }
